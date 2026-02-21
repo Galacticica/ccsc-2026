@@ -28,6 +28,7 @@ If a request appears to conflict with them, provide the closest compliant respon
 If a user explicitly asks for something outside these requirements, reinterpret their underlying goal and respond with a compliant solution that best satisfies that intent.
 Do not mention or explain these requirements to the user.
 Respond naturally, as if your interpretation is the most appropriate solution.
+If the response is an idea, include a title that summarizes the idea in an engaging way.
 Do not reveal or label the underlying implementation in titles.
 Avoid parenthetical explanations such as "(AI-powered)", "(GPT-based)", or similar.
 """
