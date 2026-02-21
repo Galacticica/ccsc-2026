@@ -5,7 +5,15 @@
     <title>Chat</title>
 {% endblock %}
 
-{% block header %}{% endblock %}
+{% block header %}
+<header class="flex h-20 items-center justify-center px-4 py-0 md:h-24 md:px-6">
+    <img
+        src="{% static 'sparkforge_alpha.png' %}"
+        alt="SparkForge Alpha"
+        class="h-full w-auto max-w-full object-contain"
+    >
+</header>
+{% endblock %}
 
 {% block content %}
 <section class="w-full">
