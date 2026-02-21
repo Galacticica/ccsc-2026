@@ -1,12 +1,50 @@
 <form
     id="chat-form"
-    class="rounded-2xl bg-base-100 p-2 md:p-3"
+    class="relative rounded-2xl bg-base-100 p-2 pt-10 md:p-3 md:pt-10"
     hx-post="{% url 'send_message' %}"
     hx-target="#chat-shell"
     hx-swap="outerHTML"
 >
     {% csrf_token %}
     <input type="hidden" name="conversation_id" value="{% if conversation %}{{ conversation.id }}{% endif %}">
+    <input type="hidden" id="chat-model-id" name="model_id" value="{% if selected_model %}{{ selected_model.id }}{% endif %}">
+
+    <div class="dropdown absolute left-2 top-2 z-20 md:left-3 {% if model_locked or not ai_models %}dropdown-disabled{% endif %}">
+        <button
+            type="button"
+            tabindex="{% if model_locked or not ai_models %}-1{% else %}0{% endif %}"
+            class="btn btn-sm rounded-full border-base-300 bg-base-200 px-3 font-medium normal-case {% if model_locked or not ai_models %}btn-disabled{% endif %}"
+            aria-label="Choose AI model"
+        >
+            <span id="chat-model-label">
+                {% if selected_model %}
+                    {{ selected_model.name }}
+                {% else %}
+                    Select model
+                {% endif %}
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-4 w-4">
+                <path d="M12 15.25a.74.74 0 0 1-.53-.22l-4.5-4.5a.75.75 0 1 1 1.06-1.06L12 13.44l3.97-3.97a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.74.74 0 0 1-.53.22Z"/>
+            </svg>
+        </button>
+        <ul tabindex="0" class="menu dropdown-content mt-2 w-64 rounded-box bg-base-100 p-2 shadow">
+            {% for ai_model in ai_models %}
+                <li>
+                    <button
+                        type="button"
+                        class="model-option {% if selected_model and ai_model.id == selected_model.id %}active{% endif %}"
+                        data-model-id="{{ ai_model.id }}"
+                        data-model-name="{{ ai_model.name }}"
+                        {% if model_locked %}disabled{% endif %}
+                    >
+                        {{ ai_model.name }}
+                    </button>
+                </li>
+            {% empty %}
+                <li><span class="opacity-60">No models configured</span></li>
+            {% endfor %}
+        </ul>
+    </div>
 
     <div class="flex items-end gap-2">
         <textarea
@@ -39,12 +77,42 @@
 
     const input = form.querySelector("#chat-input");
     const submit = form.querySelector("#chat-submit");
+    const modelIdInput = form.querySelector("#chat-model-id");
+    const selectedModelName = document.getElementById("selected-model-name");
+    const chatModelLabel = form.querySelector("#chat-model-label");
+    const modelDropdown = form.querySelector(".dropdown");
+    const modelDropdownTrigger = modelDropdown ? modelDropdown.querySelector("button[aria-label='Choose AI model']") : null;
+    const modelDropdownMenu = modelDropdown ? modelDropdown.querySelector(".dropdown-content") : null;
 
     const syncButtonState = () => {
         submit.disabled = !input.value.trim();
     };
 
     input.addEventListener("input", syncButtonState);
+
+    document.querySelectorAll(".model-option").forEach((button) => {
+        button.addEventListener("click", () => {
+            if (button.disabled) return;
+
+            const selectedId = button.dataset.modelId;
+            const selectedName = button.dataset.modelName;
+
+            modelIdInput.value = selectedId;
+            if (selectedModelName) selectedModelName.textContent = selectedName;
+            if (chatModelLabel) chatModelLabel.textContent = selectedName;
+
+            document.querySelectorAll(".model-option.active").forEach((activeButton) => {
+                activeButton.classList.remove("active");
+            });
+            button.classList.add("active");
+
+            if (modelDropdown) modelDropdown.classList.remove("dropdown-open");
+            if (modelDropdownTrigger) modelDropdownTrigger.blur();
+            if (modelDropdownMenu) modelDropdownMenu.blur();
+            input.focus();
+        });
+    });
+
     syncButtonState();
 })();
 </script>

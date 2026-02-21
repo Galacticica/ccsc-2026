@@ -1,0 +1,16 @@
+<div class="flex items-center justify-between gap-3">
+    <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-base-content/60">AI Model</p>
+        <p id="selected-model-name" class="text-sm font-medium">
+            {% if selected_model %}
+                {{ selected_model.name }}
+            {% else %}
+                No models available
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+{% if model_locked %}
+    <p class="text-xs text-base-content/60">Model is locked for this conversation after the first message.</p>
+{% endif %}
