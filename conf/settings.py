@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django_htmx",
     'accounts',
     'ai_models',
+    'conversations',
 ]
 
 MIDDLEWARE = [
