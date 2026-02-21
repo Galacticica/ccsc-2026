@@ -1,5 +1,3 @@
 - more styling
 - "advanced" mode
-- markdown output
 - big over the top welcome banner (fake stats, hero sections, look over the top)
-- 
