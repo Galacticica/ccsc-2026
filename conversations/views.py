@@ -24,18 +24,22 @@ class MainPageView(LoginRequiredMixin, View):
         ai_models = AIModel.objects.order_by("name")
         selected_model = conversation.model if conversation else ai_models.order_by("?").first()
         model_locked = conversation.messages.exists() if conversation else False
+        user_conversations = request.user.conversations.order_by("-created_at")
 
-        return render(
-            request,
-            "conversations/main_page.html",
-            {
-                "conversation": conversation,
-                "messages": messages,
-                "ai_models": ai_models,
-                "selected_model": selected_model,
-                "model_locked": model_locked,
-            },
+        context = {
+            "conversation": conversation,
+            "messages": messages,
+            "ai_models": ai_models,
+            "selected_model": selected_model,
+            "model_locked": model_locked,
+            "user_conversations": user_conversations,
+        }
+        template_name = (
+            "conversations/partials/conversation_layout.html"
+            if getattr(request, "htmx", False)
+            else "conversations/main_page.html"
         )
+        return render(request, template_name, context)
 
     def _get_requested_conversation(self, request):
         conversation_id = request.GET.get("conversation_id")
@@ -75,13 +79,14 @@ def send_message(request):
     messages = conversation.messages.order_by("timestamp")
     response = render(
         request,
-        "conversations/partials/chat_shell.html",
+        "conversations/partials/conversation_layout.html",
         {
             "conversation": conversation,
             "messages": messages,
             "ai_models": AIModel.objects.order_by("name"),
             "selected_model": conversation.model,
             "model_locked": True,
+            "user_conversations": request.user.conversations.order_by("-created_at"),
         },
     )
     response["HX-Push-Url"] = f"{reverse('main_page')}?conversation_id={conversation.id}"
