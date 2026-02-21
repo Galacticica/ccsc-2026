@@ -67,6 +67,10 @@
                 <path d="M3.41 2.53a.75.75 0 0 1 .81-.12l16.5 8.25a.75.75 0 0 1 0 1.34l-16.5 8.25a.75.75 0 0 1-1.07-.81l1.75-6.86a.75.75 0 0 1 .62-.56l8.08-1.13-8.08-1.13a.75.75 0 0 1-.62-.56L3.15 3.34a.75.75 0 0 1 .26-.81Z"/>
             </svg>
         </button>
+        <div id="chat-waiting" class="hidden items-center gap-2 text-xs text-base-content/70">
+            <span class="loading loading-spinner loading-xs"></span>
+            <span>Thinking...</span>
+        </div>
     </div>
 </form>
 
@@ -83,9 +87,11 @@
     const modelDropdown = form.querySelector(".dropdown");
     const modelDropdownTrigger = modelDropdown ? modelDropdown.querySelector("button[aria-label='Choose AI model']") : null;
     const modelDropdownMenu = modelDropdown ? modelDropdown.querySelector(".dropdown-content") : null;
+    const waiting = form.querySelector("#chat-waiting");
+    let waitingForResponse = false;
 
     const syncButtonState = () => {
-        submit.disabled = !input.value.trim();
+        submit.disabled = waitingForResponse || !input.value.trim();
     };
 
     input.addEventListener("input", syncButtonState);
@@ -111,6 +117,26 @@
             if (modelDropdownMenu) modelDropdownMenu.blur();
             input.focus();
         });
+    });
+
+    form.addEventListener("htmx:beforeRequest", () => {
+        waitingForResponse = true;
+        input.disabled = true;
+        if (modelDropdownTrigger) modelDropdownTrigger.disabled = true;
+        if (waiting) waiting.classList.remove("hidden");
+        if (waiting) waiting.classList.add("inline-flex");
+        syncButtonState();
+    });
+
+    form.addEventListener("htmx:responseError", () => {
+        waitingForResponse = false;
+        input.disabled = false;
+        if (modelDropdownTrigger && !modelDropdownTrigger.classList.contains("btn-disabled")) {
+            modelDropdownTrigger.disabled = false;
+        }
+        if (waiting) waiting.classList.add("hidden");
+        if (waiting) waiting.classList.remove("inline-flex");
+        syncButtonState();
     });
 
     syncButtonState();

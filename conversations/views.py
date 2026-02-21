@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.views import View
 
 from ai_models.models import AIModel
+from .helpers.get_prompt import get_prompt
 from .models import Conversation, Message
 
 
@@ -68,6 +69,8 @@ def send_message(request):
         conversation = Conversation.objects.create(user=request.user, model=selected_model)
 
     Message.objects.create(conversation=conversation, sender="user", content=content)
+    prompt = get_prompt(conversation, content)
+    print(f"\n=== Prompt for conversation {conversation.id} ===\n{prompt}\n", flush=True)
 
     messages = conversation.messages.order_by("timestamp")
     response = render(
