@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "django_vite",
     "django_htmx",
     'accounts',
+    'ai_models',
 ]
 
 MIDDLEWARE = [
