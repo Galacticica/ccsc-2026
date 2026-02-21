@@ -8,7 +8,7 @@ Description: Main conversation page and chat message handling.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 
@@ -19,7 +19,14 @@ from .models import Conversation, Message
 
 class MainPageView(LoginRequiredMixin, View):
     def get(self, request):
+        conversation_id = request.GET.get("conversation_id")
         conversation = self._get_requested_conversation(request)
+        if conversation_id and conversation is None:
+            response = redirect(reverse("main_page"))
+            if getattr(request, "htmx", False):
+                response["HX-Redirect"] = reverse("main_page")
+            return response
+
         messages = conversation.messages.order_by("timestamp") if conversation else []
         ai_models = AIModel.objects.order_by("name")
         selected_model = conversation.model if conversation else ai_models.order_by("?").first()
@@ -46,7 +53,10 @@ class MainPageView(LoginRequiredMixin, View):
         if not conversation_id:
             return None
 
-        return get_object_or_404(Conversation, id=conversation_id, user=request.user)
+        try:
+            return Conversation.objects.filter(id=conversation_id, user=request.user).first()
+        except (TypeError, ValueError):
+            return None
 
 
 @login_required
@@ -62,7 +72,16 @@ def send_message(request):
     model_id = request.POST.get("model_id")
 
     if conversation_id:
-        conversation = get_object_or_404(Conversation, id=conversation_id, user=request.user)
+        try:
+            conversation = Conversation.objects.filter(id=conversation_id, user=request.user).first()
+        except (TypeError, ValueError):
+            conversation = None
+
+        if conversation is None:
+            response = redirect(reverse("main_page"))
+            if getattr(request, "htmx", False):
+                response["HX-Redirect"] = reverse("main_page")
+            return response
     else:
         selected_model = None
         if model_id:
