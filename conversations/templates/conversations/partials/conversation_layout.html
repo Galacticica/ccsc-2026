@@ -1,11 +1,11 @@
-<div id="conversation-layout" class="grid min-h-screen w-full grid-cols-1 lg:grid-cols-5">
-    <aside class="h-full bg-base-200 px-4 pb-4 pt-1 lg:col-span-1">
-        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-base-content/60">Your Chats</h2>
-        <ul class="menu w-full gap-1 rounded-box bg-base-100 p-2">
+<div id="conversation-layout" class="grid h-[calc(100vh-5rem)] w-full grid-cols-1 md:h-[calc(100vh-6rem)] lg:grid-cols-5">
+    <aside class="sf-sidebar flex h-full min-h-0 flex-col px-4 pb-4 pt-1 lg:col-span-1">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-300/70">Your Chats</h2>
+        <ul class="sf-chat-list sf-chat-list-scroll menu min-h-0 w-full flex-1 gap-1 overflow-y-scroll rounded-box p-2">
             <li>
                 <button
                     type="button"
-                    class="font-semibold"
+                    class="sf-chat-list-btn sf-chat-list-btn-new font-semibold"
                     hx-get="{% url 'main_page' %}"
                     hx-target="#conversation-layout"
                     hx-swap="outerHTML"
@@ -19,7 +19,7 @@
                 <li>
                     <button
                         type="button"
-                        class="{% if conversation and user_conversation.id == conversation.id %}active{% endif %}"
+                        class="sf-chat-list-btn {% if conversation and user_conversation.id == conversation.id %}sf-chat-list-btn-active{% endif %}"
                         hx-get="{% url 'main_page' %}?conversation_id={{ user_conversation.id }}"
                         hx-target="#conversation-layout"
                         hx-swap="outerHTML"
@@ -29,12 +29,12 @@
                     </button>
                 </li>
             {% empty %}
-                <li><span class="opacity-60">No chats yet</span></li>
+                <li><span class="text-slate-400/70">No chats yet</span></li>
             {% endfor %}
         </ul>
     </aside>
 
-    <div class="min-w-0 px-4 pb-4 pt-1 lg:col-span-4 lg:px-6 lg:pb-6 lg:pt-1">
+    <div class="min-h-0 min-w-0 px-4 pb-4 pt-1 lg:col-span-4 lg:px-6 lg:pb-6 lg:pt-1">
         {% include 'conversations/partials/chat_shell.html' %}
     </div>
 </div>

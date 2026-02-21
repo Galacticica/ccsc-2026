@@ -14,6 +14,13 @@
             class="sf-header-logo h-10 w-auto object-contain md:h-12"
         >
     </a>
+    <div class="flex items-center gap-3">
+        <a
+            href="{% url 'main_page' %}"
+            class="rounded-full bg-gradient-to-r from-orange-500 to-cyan-400 px-5 py-2 text-sm font-black tracking-wide text-slate-950 transition hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(44,178,231,0.25)]"
+        >
+            Go to Chat
+        </a>
     {% if user.is_authenticated %}
         <a
             href="{% url 'logout_page' %}"
@@ -29,6 +36,7 @@
             Login
         </a>
     {% endif %}
+    </div>
 </header>
 {% endblock %}
 

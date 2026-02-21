@@ -147,43 +147,135 @@ footer {
 }
 
 .sf-shell {
-  background: rgba(42, 48, 60, 0.96);
-  border: 1px solid rgba(90, 99, 116, 0.58);
-  box-shadow: 0 16px 32px rgba(10, 15, 28, 0.32);
+  background: #0a0f1b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.sf-sidebar {
+  background: transparent;
+}
+
+.sf-chat-list {
+  background: #0a0f1b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sf-chat-list-scroll {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.sf-chat-list-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sf-chat-list-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 9999px;
+}
+
+.sf-chat-list-scroll::-webkit-scrollbar-thumb {
+  background: rgba(61, 210, 255, 0.35);
+  border-radius: 9999px;
+}
+
+.sf-chat-list-btn {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 0.9rem;
+  color: #d9e2f1;
+  transition: all 180ms ease;
+}
+
+.sf-chat-list-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sf-chat-list-btn-active {
+  background: rgba(61, 210, 255, 0.18);
+  border: 1px solid rgba(61, 210, 255, 0.35);
+}
+
+.sf-chat-list-btn-new {
+  background: rgba(255, 122, 26, 0.2);
+  border: 1px solid rgba(255, 122, 26, 0.35);
+}
+
+.sf-chat-list-btn-new:hover {
+  background: rgba(255, 122, 26, 0.28);
 }
 
 .sf-history {
-  background: rgba(42, 48, 60, 0.96);
-  border: none;
+  background: #090e18;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sf-composer {
-  background: rgba(30, 36, 49, 0.94);
-  border: 1px solid rgba(118, 128, 148, 0.4);
+  background: #0f1524;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sf-composer-surface {
-  background: rgba(30, 36, 49, 0.94);
-  border-color: rgba(118, 128, 148, 0.4);
+  background: #141b2c;
+  border-color: rgba(255, 255, 255, 0.12);
   color: #f4f8ff;
 }
 
 .sf-bubble-ai {
-  background: #1a2844;
+  background: #18263f;
   border-color: rgba(88, 190, 255, 0.55);
   color: #f4f8ff;
 }
 
 .sf-bubble-user {
-  background: #f97316;
-  border-color: rgba(255, 186, 99, 0.8);
-  color: #291200;
+  background: #d9772e;
+  border-color: rgba(255, 186, 99, 0.55);
+  color: #1f1206;
 }
 
 .sf-bubble-system {
-  background: #283654;
+  background: #27344d;
   border-color: rgba(103, 184, 255, 0.45);
   color: #f2f7ff;
+}
+
+.sf-send-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(61, 210, 255, 0.5);
+  background: #0a2236;
+  color: #7ee9ff;
+  transition: all 180ms ease;
+}
+
+.sf-send-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px rgba(44, 178, 231, 0.25);
+  background: #12324f;
+}
+
+.sf-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sf-composer .model-option {
+  border-radius: 0.7rem;
+}
+
+.sf-composer .model-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sf-composer .model-option.active {
+  background: rgba(61, 210, 255, 0.16);
+  color: #d9f5ff;
 }
 
 .sf-reveal {
