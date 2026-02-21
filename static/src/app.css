@@ -4,6 +4,44 @@
 @source "../../templates/**/*.html";
 @source "../../../**/templates/**/*.html";
 
+
+
+@plugin "daisyui/theme" {
+  name: "ai";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: #F7F8FF;
+  --color-base-200: #E7EAFE;
+  --color-base-300: #CED6FF;
+  --color-base-content: #0B1026;
+  --color-primary: #00D3FF;
+  --color-primary-content: #001018;
+  --color-secondary: #B8FF3D;
+  --color-secondary-content: #102000;
+  --color-accent: #FF2BD6;
+  --color-accent-content: #24001D;
+  --color-neutral: #232B5D;
+  --color-neutral-content: #EEF2FF;
+  --color-info: #3D5AFE;
+  --color-info-content: #060A18;
+  --color-success: #00D6A3;
+  --color-success-content: #002014;
+  --color-warning: #FFB020;
+  --color-warning-content: #201200;
+  --color-error: #FF3B5C;
+  --color-error-content: #240007;
+  --radius-selector: 2rem;
+  --radius-field: 1rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.21875rem;
+  --border: 2px;
+  --depth: 1;
+  --noise: 0;
+}
+
+
 /* DaisyUI with all themes enabled */
 @plugin "daisyui" {
   themes: all;
