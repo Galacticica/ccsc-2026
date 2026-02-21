@@ -1,5 +1,5 @@
-- openai api
-- return and send ai messages
-- ai creates chat names if not existing
-- more models i guess
 - more styling
+- "advanced" mode
+- markdown output
+- big over the top welcome banner (fake stats, hero sections, look over the top)
+- 
