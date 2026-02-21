@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Chat</title>
+    <title>SparkForge</title>
 {% endblock %}
 
 {% block header %}
@@ -33,8 +33,18 @@
 {% endblock %}
 
 {% block content %}
-<section class="w-full">
-    {% include 'conversations/partials/conversation_layout.html' %}
+<section class="relative isolate flex min-h-[calc(100vh-5rem)] items-center justify-center overflow-hidden px-4 pb-16 pt-4 md:min-h-[calc(100vh-6rem)] md:px-10">
+    <div class="pointer-events-none absolute -left-40 top-16 h-80 w-80 rounded-full bg-cyan-300/20 blur-3xl md:h-[28rem] md:w-[28rem]"></div>
+    <div class="pointer-events-none absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-indigo-300/20 blur-3xl md:h-[28rem] md:w-[28rem]"></div>
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.35),transparent_45%),linear-gradient(140deg,rgba(8,47,73,0.1),rgba(49,46,129,0.18),rgba(2,132,199,0.1))]"></div>
+
+    <div class="relative mx-auto flex w-full max-w-7xl items-center justify-center rounded-[2.5rem] border border-white/30 bg-white/10 p-8 shadow-[0_20px_70px_rgba(10,20,40,0.22)] backdrop-blur-xl md:p-14">
+        <img
+            src="{% static 'sparkforge_alpha.png' %}"
+            alt="SparkForge Alpha"
+            class="h-auto w-full max-w-[68rem] object-contain drop-shadow-[0_25px_50px_rgba(6,20,40,0.35)]"
+        >
+    </div>
 </section>
 {% endblock %}
 

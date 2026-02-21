@@ -15,9 +15,6 @@ class MyLoginView(LoginView):
     form_class = LoginForm
     template_name = "accounts/login.html"
     redirect_authenticated_user = True
-    
-    def get_success_url(self):
-        return "/"
 
 class MySignupView(FormView):
     """Custom signup view using SignupForm."""
@@ -43,4 +40,3 @@ class MyLogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)  
         return redirect("/")  
-

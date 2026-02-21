@@ -10,6 +10,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("", views.HomePageView.as_view(), name="home"),
     path('chat', views.MainPageView.as_view(), name='main_page'),
     path('messages/send/', views.send_message, name='send_message'),
 ]

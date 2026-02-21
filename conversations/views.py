@@ -125,3 +125,9 @@ def send_message(request):
     )
     response["HX-Push-Url"] = f"{reverse('main_page')}?conversation_id={conversation.id}"
     return response
+
+
+
+class HomePageView(View):
+    def get(self, request):
+        return render(request, "home.html")
