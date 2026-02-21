@@ -22,8 +22,10 @@
     {% vite_hmr_client %}
     {% vite_asset 'static/src/app.js' %}
     {% htmx_script %}
-
+    
+    {% block title %}
     <title>TITLE TBD</title>
+    {% endblock %}
 </head>
 <body class="min-h-screen flex flex-col" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
     {% block header %}
@@ -33,7 +35,7 @@
         </div>
     </header>
     {% endblock %}
-    
+
     <main class="flex-grow">
         {% block content %}{% endblock %}
     </main>
