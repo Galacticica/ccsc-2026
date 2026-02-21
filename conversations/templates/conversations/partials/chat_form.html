@@ -1,0 +1,50 @@
+<form
+    id="chat-form"
+    class="rounded-2xl bg-base-100 p-2 md:p-3"
+    hx-post="{% url 'send_message' %}"
+    hx-target="#chat-shell"
+    hx-swap="outerHTML"
+>
+    {% csrf_token %}
+    <input type="hidden" name="conversation_id" value="{% if conversation %}{{ conversation.id }}{% endif %}">
+
+    <div class="flex items-end gap-2">
+        <textarea
+            id="chat-input"
+            class="textarea h-14 flex-1 resize-none rounded-2xl border-base-300 leading-relaxed"
+            name="content"
+            rows="1"
+            placeholder="Type a message"
+            required
+        ></textarea>
+
+        <button
+            id="chat-submit"
+            class="btn btn-primary btn-circle"
+            type="submit"
+            disabled
+            aria-label="Send message"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                <path d="M3.41 2.53a.75.75 0 0 1 .81-.12l16.5 8.25a.75.75 0 0 1 0 1.34l-16.5 8.25a.75.75 0 0 1-1.07-.81l1.75-6.86a.75.75 0 0 1 .62-.56l8.08-1.13-8.08-1.13a.75.75 0 0 1-.62-.56L3.15 3.34a.75.75 0 0 1 .26-.81Z"/>
+            </svg>
+        </button>
+    </div>
+</form>
+
+<script>
+(function () {
+    const form = document.getElementById("chat-form");
+    if (!form) return;
+
+    const input = form.querySelector("#chat-input");
+    const submit = form.querySelector("#chat-submit");
+
+    const syncButtonState = () => {
+        submit.disabled = !input.value.trim();
+    };
+
+    input.addEventListener("input", syncButtonState);
+    syncButtonState();
+})();
+</script>
