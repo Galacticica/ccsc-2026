@@ -1,0 +1,71 @@
+<div id="conversation-layout" class="drawer rounded-3xl">
+    <input id="chat-drawer-toggle" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex min-w-0 flex-col gap-3">
+        <div class="flex items-center gap-2">
+            <label for="chat-drawer-toggle" class="btn btn-ghost btn-sm drawer-button" aria-label="Open chat list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                    <path d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"/>
+                </svg>
+            </label>
+            <p class="text-sm font-medium text-base-content/70">Chats</p>
+        </div>
+        {% include 'conversations/partials/chat_shell.html' %}
+    </div>
+
+    <div class="drawer-side z-30">
+        <label for="chat-drawer-toggle" aria-label="close sidebar" class="drawer-overlay"></label>
+        <aside class="h-full w-80 bg-base-200 p-4">
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-base-content/60">Your Chats</h2>
+            <ul class="menu w-full gap-1 rounded-box bg-base-100 p-2">
+                <li>
+                    <button
+                        type="button"
+                        data-chat-link
+                        class="font-semibold"
+                        hx-get="{% url 'main_page' %}"
+                        hx-target="#conversation-layout"
+                        hx-swap="outerHTML"
+                        hx-push-url="true"
+                    >
+                        + New chat
+                    </button>
+                </li>
+                <li class="pointer-events-none my-1 border-t border-base-300"></li>
+                {% for user_conversation in user_conversations %}
+                    <li>
+                        <button
+                            type="button"
+                            data-chat-link
+                            class="{% if conversation and user_conversation.id == conversation.id %}active{% endif %}"
+                            hx-get="{% url 'main_page' %}?conversation_id={{ user_conversation.id }}"
+                            hx-target="#conversation-layout"
+                            hx-swap="outerHTML"
+                            hx-push-url="true"
+                        >
+                            {{ user_conversation.title }}
+                        </button>
+                    </li>
+                {% empty %}
+                    <li><span class="opacity-60">No chats yet</span></li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+</div>
+
+<script>
+(function () {
+    const layout = document.getElementById("conversation-layout");
+    if (!layout) return;
+
+    const drawerToggle = layout.querySelector("#chat-drawer-toggle");
+    if (!drawerToggle) return;
+
+    layout.querySelectorAll("[data-chat-link]").forEach((link) => {
+        link.addEventListener("click", () => {
+            drawerToggle.checked = false;
+        });
+    });
+})();
+</script>

@@ -2,7 +2,7 @@
     id="chat-form"
     class="relative rounded-2xl bg-base-100 p-2 pt-10 md:p-3 md:pt-10"
     hx-post="{% url 'send_message' %}"
-    hx-target="#chat-shell"
+    hx-target="#conversation-layout"
     hx-swap="outerHTML"
 >
     {% csrf_token %}
