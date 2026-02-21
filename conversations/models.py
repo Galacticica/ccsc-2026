@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Conversation(models.Model):
     title = models.CharField(max_length=255, blank=True, default="")
@@ -10,7 +11,8 @@ class Conversation(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.title:
-            self.title = f"Conversation {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
+            created_time = self.created_at or timezone.now()
+            self.title = f"Conversation {created_time.strftime('%Y-%m-%d %H:%M:%S')}"
         super().save(*args, **kwargs)
 
 class Message(models.Model):
