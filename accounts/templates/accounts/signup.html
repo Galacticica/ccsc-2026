@@ -1,50 +1,100 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+    <title>Sign Up | SparkForge</title>
+{% endblock %}
+
+{% block header %}
+<header class="relative z-20 flex h-20 items-center justify-between px-5 md:h-24 md:px-10">
+    <a href="{% url 'home' %}" aria-label="Go to home page">
+        <img
+            src="{% static 'sparkforge_alpha.png' %}"
+            alt="SparkForge Alpha"
+            class="sf-header-logo h-10 w-auto object-contain md:h-12"
+        >
+    </a>
+    <a
+        href="{% url 'login_page' %}"
+        class="rounded-full border border-base-300 bg-base-100/80 px-5 py-2 text-sm font-semibold tracking-wide backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+        Log In
+    </a>
+</header>
+{% endblock %}
+
 {% block content %}
-<div>
-    <div>
-        <h2>Sign Up</h2>
-        <form method="post" action="{% url 'signup_page' %}">
+<section class="relative isolate flex min-h-[calc(100vh-5rem)] items-center justify-center overflow-hidden px-4 pb-14 pt-4 md:min-h-[calc(100vh-6rem)] md:px-8">
+    <div class="pointer-events-none absolute -left-40 top-16 h-80 w-80 rounded-full bg-orange-500/14 blur-3xl md:h-[28rem] md:w-[28rem]"></div>
+    <div class="pointer-events-none absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-cyan-400/14 blur-3xl md:h-[28rem] md:w-[28rem]"></div>
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,128,32,0.13),transparent_40%),radial-gradient(circle_at_80%_75%,rgba(61,210,255,0.12),transparent_42%)]"></div>
+
+    <div class="sf-frame relative w-full max-w-2xl overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0f1b] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.45)] md:p-8">
+        <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_30%),repeating-linear-gradient(to_bottom,rgba(255,255,255,0.02)_0,rgba(255,255,255,0.02)_1px,transparent_1px,transparent_4px)]"></div>
+        <h1 class="relative text-3xl font-black tracking-tight text-white md:text-4xl">Create Your Account</h1>
+        <p class="relative mt-2 text-sm text-slate-300">Join SparkForge and start building conversations.</p>
+
+        <form method="post" action="{% url 'signup_page' %}" class="relative mt-6">
             {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div>
-                {{ form.first_name.label_tag }}
-                {{ form.first_name }}
-                {{ form.first_name.errors }}
+            {% if form.non_field_errors %}
+            <div class="mb-4 rounded-xl border border-red-400/35 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {{ form.non_field_errors }}
             </div>
-            <div>
-                {{ form.last_name.label_tag }}
-                {{ form.last_name }}
-                {{ form.last_name.errors }}
+            {% endif %}
+
+            <div class="grid gap-4 md:grid-cols-2">
+                <div>
+                    <label for="id_first_name" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">First Name</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                    <p class="mt-1 text-sm text-red-300">{{ form.first_name.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="id_last_name" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">Last Name</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                    <p class="mt-1 text-sm text-red-300">{{ form.last_name.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+                <div class="md:col-span-2">
+                    <label for="id_email" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <p class="mt-1 text-sm text-red-300">{{ form.email.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="id_password" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">Password</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                    <p class="mt-1 text-sm text-red-300">{{ form.password.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="id_confirm_password" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">Confirm Password</label>
+                    {{ form.confirm_password }}
+                    {% if form.confirm_password.errors %}
+                    <p class="mt-1 text-sm text-red-300">{{ form.confirm_password.errors|striptags }}</p>
+                    {% endif %}
+                </div>
             </div>
-            <div>
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {{ form.email.errors }}
-            </div>
-            <div>
-                {{ form.password.label_tag }}
-                {{ form.password }}
-                {{ form.password.errors }}
-            </div>
-            <div>
-                {{ form.confirm_password.label_tag }}
-                {{ form.confirm_password }}
-                {{ form.confirm_password.errors }}
-            </div>
-            <div>
-                {{ form.role.label_tag }}
-                {{ form.role }}
-                {{ form.role.errors }}
-            </div>
-            <button type="submit">Sign Up</button>
+
+            <button
+                type="submit"
+                class="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-orange-500 to-cyan-400 px-5 py-3 text-sm font-black uppercase tracking-wide text-slate-950 transition hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(44,178,231,0.28)]"
+            >
+                Sign Up
+            </button>
         </form>
-        <div>
-            <p>Already have an account? 
-                <a href="{% url 'login_page' %}">Log In</a>
+
+        <div class="relative mt-6 text-center text-sm text-slate-300">
+            <p>Already have an account?
+                <a href="{% url 'login_page' %}" class="font-semibold text-cyan-300 underline decoration-cyan-400/80 underline-offset-4">Log in</a>
             </p>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
+
+{% block footer %}{% endblock %}

@@ -1,31 +1,78 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+    <title>Login | SparkForge</title>
+{% endblock %}
+
+{% block header %}
+<header class="relative z-20 flex h-20 items-center justify-between px-5 md:h-24 md:px-10">
+    <a href="{% url 'home' %}" aria-label="Go to home page">
+        <img
+            src="{% static 'sparkforge_alpha.png' %}"
+            alt="SparkForge Alpha"
+            class="sf-header-logo h-10 w-auto object-contain md:h-12"
+        >
+    </a>
+    <a
+        href="{% url 'signup_page' %}"
+        class="rounded-full border border-base-300 bg-base-100/80 px-5 py-2 text-sm font-semibold tracking-wide backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+        Sign Up
+    </a>
+</header>
+{% endblock %}
+
 {% block content %}
-<div>
-    <div>
-        <h2>Log In</h2>
-        <form method="post" action="{% url 'login_page' %}">
+<section class="relative isolate flex min-h-[calc(100vh-5rem)] items-center justify-center overflow-hidden px-4 pb-14 pt-4 md:min-h-[calc(100vh-6rem)] md:px-8">
+    <div class="pointer-events-none absolute -left-40 top-16 h-80 w-80 rounded-full bg-orange-500/14 blur-3xl md:h-[28rem] md:w-[28rem]"></div>
+    <div class="pointer-events-none absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-cyan-400/14 blur-3xl md:h-[28rem] md:w-[28rem]"></div>
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,128,32,0.13),transparent_40%),radial-gradient(circle_at_80%_75%,rgba(61,210,255,0.12),transparent_42%)]"></div>
+
+    <div class="sf-frame relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0f1b] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.45)] md:p-8">
+        <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_30%),repeating-linear-gradient(to_bottom,rgba(255,255,255,0.02)_0,rgba(255,255,255,0.02)_1px,transparent_1px,transparent_4px)]"></div>
+        <h1 class="relative text-3xl font-black tracking-tight text-white md:text-4xl">Welcome Back</h1>
+        <p class="relative mt-2 text-sm text-slate-300">Sign in to continue your SparkForge conversations.</p>
+
+        <form method="post" action="{% url 'login_page' %}" class="relative mt-6 space-y-4">
             {% csrf_token %}
             {% if next %}
             <input type="hidden" name="next" value="{{ next }}">
             {% endif %}
-            {{ form.non_field_errors }}
+            {% if form.non_field_errors %}
+            <div class="rounded-xl border border-red-400/35 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
             <div>
-                <label for="id_email">Email</label>
+                <label for="id_email" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">Email</label>
                 {{ form.email }}
-                {{ form.email.errors }}
+                {% if form.email.errors %}
+                <p class="mt-1 text-sm text-red-300">{{ form.email.errors|striptags }}</p>
+                {% endif %}
             </div>
             <div>
-                <label for="id_password">Password</label>
+                <label for="id_password" class="mb-1 block text-sm font-semibold uppercase tracking-wide text-slate-300">Password</label>
                 {{ form.password }}
-                {{ form.password.errors }}
+                {% if form.password.errors %}
+                <p class="mt-1 text-sm text-red-300">{{ form.password.errors|striptags }}</p>
+                {% endif %}
             </div>
-            <button type="submit">Log In</button>
+
+            <button
+                type="submit"
+                class="mt-2 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-orange-500 to-cyan-400 px-5 py-3 text-sm font-black uppercase tracking-wide text-slate-950 transition hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(44,178,231,0.28)]"
+            >
+                Log In
+            </button>
         </form>
-        <div>
-            <p>No Account Yet? <a href="{% url 'signup_page' %}">Sign Up</a></p>
+
+        <div class="relative mt-6 text-center text-sm text-slate-300">
+            <p>No account yet? <a href="{% url 'signup_page' %}" class="font-semibold text-cyan-300 underline decoration-cyan-400/80 underline-offset-4">Sign up</a></p>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
+
+{% block footer %}{% endblock %}

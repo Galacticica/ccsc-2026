@@ -19,6 +19,14 @@ class LoginForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.request = request
+        field_classes = (
+            "w-full rounded-2xl border border-white/15 bg-[#0f1524]/90 px-4 py-3 "
+            "text-base text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] "
+            "outline-none transition placeholder:text-slate-400 "
+            "focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/30"
+        )
+        for field in self.fields.values():
+            field.widget.attrs["class"] = field_classes
     
     def clean(self):
         self.user_cache = auth_authenticate(
@@ -66,6 +74,17 @@ class SignupForm(forms.Form):
         label="Last Name"
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        field_classes = (
+            "w-full rounded-2xl border border-white/15 bg-[#0f1524]/90 px-4 py-3 "
+            "text-base text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] "
+            "outline-none transition placeholder:text-slate-400 "
+            "focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/30"
+        )
+        for field in self.fields.values():
+            field.widget.attrs["class"] = field_classes
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
@@ -75,4 +94,3 @@ class SignupForm(forms.Form):
             raise forms.ValidationError("Passwords do not match.")
 
         return cleaned_data
-

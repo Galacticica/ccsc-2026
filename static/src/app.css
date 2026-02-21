@@ -48,10 +48,102 @@
 }
 
 .sf-app {
-  background:
-    radial-gradient(900px 420px at 80% -20%, rgba(61, 210, 255, 0.08), transparent 58%),
-    linear-gradient(180deg, #070d1c 0%, #091126 100%);
+  position: relative;
+  background: #000;
   color: var(--color-base-content);
+  overflow-x: hidden;
+}
+
+.sf-header-logo {
+  filter: none;
+}
+
+.sf-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+.sf-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.06), transparent 30%, transparent 70%, rgba(61, 210, 255, 0.08));
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+
+.sf-outline-title {
+  color: transparent;
+  -webkit-text-stroke: 1.6px rgba(244, 248, 255, 0.85);
+  text-shadow: 0 0 22px rgba(61, 210, 255, 0.22);
+}
+
+.sf-gradient-title {
+  background: linear-gradient(135deg, #f4f8ff 0%, #81e8ff 42%, #ff9e57 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sf-scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.45;
+  animation: sf-scan-move 10s linear infinite;
+}
+
+.sf-shimmer {
+  background-size: 220% 100%;
+  animation: sf-shimmer 3.2s linear infinite;
+}
+
+.sf-app::before,
+.sf-app::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+}
+
+.sf-app::before {
+  background-image:
+    radial-gradient(circle at 25% 30%, rgba(255, 135, 31, 0.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 65%, rgba(76, 216, 255, 0.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 50% 85%, rgba(255, 190, 95, 0.4) 0 1px, transparent 2px);
+  background-size: 240px 240px, 300px 300px, 180px 180px;
+  opacity: 0.55;
+  animation: sf-spark-drift 24s linear infinite;
+}
+
+.sf-app::after {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.45) 0 0.75px, transparent 1.8px),
+    radial-gradient(circle at 80% 40%, rgba(255, 122, 26, 0.45) 0 1px, transparent 2px);
+  background-size: 170px 170px, 260px 260px;
+  opacity: 0.35;
+  animation: sf-spark-flicker 8s ease-in-out infinite alternate;
+}
+
+main,
+header,
+footer {
+  position: relative;
+  z-index: 1;
 }
 
 .sf-shell {
@@ -92,4 +184,76 @@
   background: #283654;
   border-color: rgba(103, 184, 255, 0.45);
   color: #f2f7ff;
+}
+
+.sf-reveal {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition:
+    opacity 680ms cubic-bezier(0.2, 0.7, 0.1, 1),
+    transform 760ms cubic-bezier(0.16, 0.84, 0.26, 1);
+  will-change: opacity, transform;
+}
+
+.sf-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-app::before,
+  .sf-app::after {
+    animation: none;
+  }
+
+  .sf-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@keyframes sf-spark-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-20px, 26px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sf-spark-flicker {
+  0% {
+    opacity: 0.2;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: translate3d(10px, -8px, 0) scale(1.02);
+  }
+  100% {
+    opacity: 0.25;
+    transform: translate3d(-12px, 10px, 0) scale(0.99);
+  }
+}
+
+@keyframes sf-scan-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(28px);
+  }
+}
+
+@keyframes sf-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 220% 50%;
+  }
 }
