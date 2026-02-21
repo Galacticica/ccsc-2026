@@ -94,6 +94,11 @@ def send_message(request):
     Message.objects.create(conversation=conversation, sender="user", content=content)
     prompt = get_prompt(conversation, content)
     print(f"\n=== Prompt for conversation {conversation.id} ===\n{prompt}\n", flush=True)
+    Message.objects.create(
+        conversation=conversation,
+        sender="ai",
+        content=f"=== Prompt for conversation {conversation.id} ===\n{prompt}",
+    )
 
     messages = conversation.messages.order_by("timestamp")
     response = render(

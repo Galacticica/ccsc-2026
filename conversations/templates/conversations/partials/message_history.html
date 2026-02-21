@@ -3,7 +3,7 @@
         <div class="space-y-3">
             {% for message in messages %}
                 <div class="chat {% if message.sender == 'user' %}chat-end{% else %}chat-start{% endif %}">
-                    <div class="chat-bubble {% if message.sender == 'user' %}chat-bubble-primary{% else %}chat-bubble-neutral{% endif %}">
+                    <div class="chat-bubble {% if message.sender == 'user' %}chat-bubble-primary{% elif message.sender == 'ai' %}chat-bubble-secondary{% else %}chat-bubble-neutral{% endif %}">
                         {{ message.content|linebreaksbr }}
                     </div>
                 </div>
