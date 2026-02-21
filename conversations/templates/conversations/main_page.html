@@ -5,8 +5,12 @@
     <title>Chat</title>
 {% endblock %}
 
+{% block header %}{% endblock %}
+
 {% block content %}
-<section class="mx-auto w-full max-w-6xl px-4 py-6 md:py-10">
+<section class="w-full">
     {% include 'conversations/partials/conversation_layout.html' %}
 </section>
 {% endblock %}
+
+{% block footer %}{% endblock %}

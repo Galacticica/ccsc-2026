@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 {% block theme %}
-<html lang="en" class="h-full" data-theme="dim">
+<html lang="en" class="h-full" data-theme="ai">
 {% endblock %}
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
     <title>TITLE TBD</title>
     {% endblock %}
 </head>
-<body class="min-h-screen flex flex-col" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
+<body class="sf-app min-h-screen flex flex-col" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
     {% block header %}
     <header class="p-6">
         <div class="flex flex-col items-center font-sans">
@@ -39,10 +39,12 @@
     <main class="flex-grow">
         {% block content %}{% endblock %}
     </main>
+    {% block footer %}
     <footer class="p-6 mt-4">
         <div class="flex flex-col items-center font-sans">
             <p class="text-lg">© 2026</p>
         </div>
     </footer>
+    {% endblock %}
 </body>
 </html>
