@@ -19,6 +19,7 @@ dependencies = [
     { name = "django" },
     { name = "django-browser-reload" },
     { name = "django-htmx" },
+    { name = "django-unfold" },
     { name = "django-vite" },
     { name = "psycopg2-binary" },
     { name = "python-dotenv" },
@@ -29,6 +30,7 @@ requires-dist = [
     { name = "django", specifier = ">=6.0.2" },
     { name = "django-browser-reload", specifier = ">=1.21.0" },
     { name = "django-htmx", specifier = ">=1.27.0" },
+    { name = "django-unfold", specifier = ">=0.80.2" },
     { name = "django-vite", specifier = ">=3.1.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.11" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
@@ -72,6 +74,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/34/f2/8c3e28a5eed8e5226835c762892bfef74eda7e8629c65b49c186098eb303/django_htmx-1.27.0.tar.gz", hash = "sha256:036e5da801bfdf5f1ca815f21592cfb9f004a898f330c842f15e55c70e301a75", size = 65362, upload-time = "2025-11-28T23:18:55.049Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/23/ac/25d28489dc43224e260f4ebee7565f7ef1efe12af0f284a89500c19f75e2/django_htmx-1.27.0-py3-none-any.whl", hash = "sha256:13e1e13b87d39b57f95aae6e4987cb3df056d0b1373a41f4a94504a00298ffd8", size = 62126, upload-time = "2025-11-28T23:18:53.57Z" },
+]
+
+[[package]]
+name = "django-unfold"
+version = "0.80.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/18/99/bb6273b4d88afcc37e7f5fa3c8386265eda8c89312f50d751e7450bec7bd/django_unfold-0.80.2.tar.gz", hash = "sha256:6d9baa1694f9c3f8c451ea6e00537375ae1c7832d3ad0110d0f576bd47dae3d1", size = 1111081, upload-time = "2026-02-18T09:25:27.251Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/37/11/792187e14290dc7737a78905f6d7ab664da11bb2f29873b5152bdc14114a/django_unfold-0.80.2-py3-none-any.whl", hash = "sha256:9e9d98eb6bcbc58769a7e17b104fa17be88672fb0379e8ca26a4f978564b1b0b", size = 1226068, upload-time = "2026-02-18T09:25:28.853Z" },
 ]
 
 [[package]]
