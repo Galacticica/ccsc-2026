@@ -4,6 +4,7 @@ from django.utils import timezone
 class Conversation(models.Model):
     title = models.CharField(max_length=255, blank=True, default="")
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='conversations')
+    model = models.ForeignKey('ai_models.AIModel', on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -17,7 +18,7 @@ class Conversation(models.Model):
 
 class Message(models.Model):
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
-    sender = models.CharField(max_length=255)  # e.g., "user" or "ai"
+    sender = models.CharField(max_length=255)  
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     
