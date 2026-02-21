@@ -15,3 +15,14 @@
         </div>
     {% endif %}
 </div>
+
+<script>
+(function () {
+    const history = document.getElementById("message-history");
+    if (!history) return;
+
+    requestAnimationFrame(() => {
+        history.scrollTop = history.scrollHeight;
+    });
+})();
+</script>
