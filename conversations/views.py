@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.views import View
 
 from ai_models.models import AIModel
+from .helpers.get_convo_title import get_conversation_title_from_first_message
 from .helpers.get_prompt import get_response_from_ai
 from .models import Conversation, Message
 
@@ -82,6 +83,7 @@ def send_message(request):
             if getattr(request, "htmx", False):
                 response["HX-Redirect"] = reverse("main_page")
             return response
+        is_new_conversation = False
     else:
         selected_model = None
         if model_id:
@@ -90,8 +92,13 @@ def send_message(request):
             selected_model = AIModel.objects.order_by("?").first()
 
         conversation = Conversation.objects.create(user=request.user, model=selected_model)
+        is_new_conversation = True
 
     Message.objects.create(conversation=conversation, sender="user", content=content)
+    if is_new_conversation:
+        conversation.title = get_conversation_title_from_first_message(content)
+        conversation.save(update_fields=["title"])
+
     try:
         ai_response = get_response_from_ai(conversation, content)
     except Exception:
