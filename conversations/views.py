@@ -13,7 +13,7 @@ from django.urls import reverse
 from django.views import View
 
 from ai_models.models import AIModel
-from .helpers.get_prompt import get_prompt
+from .helpers.get_prompt import get_response_from_ai
 from .models import Conversation, Message
 
 
@@ -92,12 +92,15 @@ def send_message(request):
         conversation = Conversation.objects.create(user=request.user, model=selected_model)
 
     Message.objects.create(conversation=conversation, sender="user", content=content)
-    prompt = get_prompt(conversation, content)
-    print(f"\n=== Prompt for conversation {conversation.id} ===\n{prompt}\n", flush=True)
+    try:
+        ai_response = get_response_from_ai(conversation, content)
+    except Exception:
+        ai_response = "I ran into an issue generating a response. Please try again."
+
     Message.objects.create(
         conversation=conversation,
         sender="ai",
-        content=f"=== Prompt for conversation {conversation.id} ===\n{prompt}",
+        content=ai_response or "I did not generate a response.",
     )
 
     messages = conversation.messages.order_by("timestamp")
