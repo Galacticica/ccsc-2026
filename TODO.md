@@ -1,0 +1,6 @@
+- add ability to go to other previous chats
+- openai api
+- return and send ai messages
+- ai creates chat names if not existing
+- more models i guess
+- more styling
