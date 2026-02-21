@@ -95,6 +95,13 @@
     };
 
     input.addEventListener("input", syncButtonState);
+    input.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" || event.shiftKey) return;
+        event.preventDefault();
+        if (!submit.disabled) {
+            form.requestSubmit();
+        }
+    });
 
     document.querySelectorAll(".model-option").forEach((button) => {
         button.addEventListener("click", () => {
